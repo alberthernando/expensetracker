@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Expenses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Expenses</h2>
+<table id="expenses" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Expense Date</th>
+            <th>Date Added</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Unit of Measure</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            var table = $("#expenses").DataTable({
+                ajax: {
+                    url: "/api/expenses",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, expense) {
+                            return "<a href='/expenses/edit/" + expense.id + "'>" + expense.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "category.name",
+                    },
+                    {
+                        data: "expenseDate",
+                        render: function (data, type, expense) {
+                            var date = new Date(Date.parse(expense.expenseDate));
+                            return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getUTCDate());
+                        }
+                    },
+                    {
+                        data: "dateAdded",
+                        render: function (data, type, expense) {
+                            var date = new Date(Date.parse(expense.dateAdded));
+                            return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getUTCDate());
+                        }
+                    },
+                    {
+                        data: "unitPrice",
+                        render: function (data, type, expense) {                         
+                            return "Y" + expense.unitPrice;
+                        }
+                    },
+                    {
+                        data: "quantity"
+                    },
+                    {
+                        data: "unitOfMeasure"
+                    }, 
+                    {
+                        data: "unitPrice",
+                        render: function (data, type, expense) {
+                            return expense.unitPrice * expense.quantity;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}

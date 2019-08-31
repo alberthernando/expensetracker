@@ -38,6 +38,23 @@ namespace ExpenseTracker.Controllers
                 Categories = (IEnumerable<Models.Category>)categories,
                 PageTitle = "New Expense"
             };
+            viewModel.Expense.UnitPrice = null;
+            viewModel.Expense.Quantity = null;
+            viewModel.Expense.DateAdded = DateTime.Now;
+            viewModel.Expense.ExpenseDate = DateTime.Now;
+            
+            return View("ExpenseForm", viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var categories = _context.Categories.ToList();
+            var viewModel = new ExpenseFormViewModel
+            {
+                Expense = _context.Expenses.Single(c => c.Id == id),
+                Categories = (IEnumerable<Models.Category>)categories,
+                PageTitle = "Edit Expense"
+            };
 
             return View("ExpenseForm", viewModel);
         }
@@ -72,7 +89,7 @@ namespace ExpenseTracker.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Expense");
+            return RedirectToAction("Index", "Expenses");
         }
     }
 }

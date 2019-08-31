@@ -1,0 +1,57 @@
+﻿@model ExpenseTracker.ViewModels.ReportFormViewModel
+@{
+    ViewBag.Title = "New Report Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.PageTitle</h2>
+
+@using (Html.BeginForm("Save", "Reports"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.Name)
+        @Html.TextBoxFor(m => m.Expense.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.ExpenseDate)
+        @Html.TextBoxFor(m => m.Expense.ExpenseDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.ExpenseDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.CategoryId)
+        @Html.DropDownListFor(m => m.Expense.CategoryId, new SelectList(Model.Categories, "Id", "Name"), "Select Category", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.CategoryId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.UnitPrice)
+        @Html.TextBoxFor(m => m.Expense.UnitPrice, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.UnitPrice)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.Quantity)
+        @Html.TextBoxFor(m => m.Expense.Quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.Quantity)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Expense.UnitOfMeasure)
+        @Html.TextBoxFor(m => m.Expense.UnitOfMeasure, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Expense.UnitOfMeasure)
+    </div>
+
+    @Html.HiddenFor(m => m.Expense.Id)
+    @Html.HiddenFor(m => m.Expense.DateAdded)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

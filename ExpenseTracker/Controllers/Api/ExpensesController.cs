@@ -5,6 +5,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace vidly.Controllers.Api
@@ -21,13 +22,13 @@ namespace vidly.Controllers.Api
         // GET /api/expenses
         public IHttpActionResult GetExpenses(string query = null)
         {
-            var expensessQuery = _context.Expenses
+            var expensesQuery = _context.Expenses
                 .Include(c => c.Category);
 
             if (!String.IsNullOrWhiteSpace(query))
-                expensessQuery = expensessQuery.Where(c => c.Name.Contains(query));
+                expensesQuery = expensesQuery.Where(c => c.Name.Contains(query));
 
-            var expensesDtos = expensessQuery
+            var expensesDtos = expensesQuery
                 .ToList()
                 .Select(Mapper.Map<Expense, ExpenseDto>);
 
@@ -35,7 +36,7 @@ namespace vidly.Controllers.Api
         }
 
         // GET /api/expenses/id
-        public IHttpActionResult GetExpense(int id)
+        public IHttpActionResult GetExpenses(int id)
         {
             var expense = _context.Expenses
                 .SingleOrDefault(c => c.Id == id);

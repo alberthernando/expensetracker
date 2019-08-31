@@ -24,12 +24,12 @@ namespace ExpenseTracker.Models
         public DateTime DateAdded { get; set; }
 
         [Required]
-        public byte Quantity { get; set; }
+        public byte? Quantity { get; set; }
         
         public string UnitOfMeasure { get; set; }
 
         [Required]
-        public int UnitPrice { get; set; }
+        public int? UnitPrice { get; set; }
 
     }
 }
